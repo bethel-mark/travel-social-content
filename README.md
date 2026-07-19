@@ -21,6 +21,8 @@
 - 📱 **4 大平台适配** — 小红书 / Instagram / 朋友圈 / 微博
 - 🖼️ **AI 生图 Prompt** — 每个景点 2-3 套英文 prompt，可直接喂 Midjourney / DALL-E / 即梦 / 豆包 / Stable Diffusion
 - 📚 **可缓存参考** — 8 大景点档案已收录，重复调用秒回
+- 🌐 **REST API** — 内置 FastAPI 服务，HTTP 调用、批量、CI 集成都开箱即用
+- 🐳 **Docker 部署** — docker compose up 一键起，没有 Python 环境也能跑
 
 ---
 
@@ -89,13 +91,45 @@ travel-social-content/
 
 ---
 
-## 🧪 3 个真实样例
+## 🧪 6 个真实样例（共 2246 行完整方案）
 
-| 目的地 | 样例 | 输出 |
-|---|---|---|
-| 乐山 | [`leshan-output.md`](examples/leshan-output.md) | 6 个子景点 + 3 种风格文案 + 6 段 AI prompt |
-| 宜宾 | [`yibin-output.md`](examples/yibin-output.md) | 5 种文案风格全套 + 美食/夜景/文化覆盖 |
-| 四川 8 大景点 | [`sichuan-output.md`](examples/sichuan-output.md) | 数字攻略型 + 反差吸引型合集 |
+| 主题 | 目的地 | 样例 | 体量 | 主题亮点 |
+|---|---|---|---|---|
+| 🏔️ 美食城市 | 乐山 | [`leshan-output.md`](examples/leshan-output.md) | 364 行 | 大佛 + 跷脚牛肉 + 嘉阳小火车 |
+| 🍲 文化古城 | 宜宾 | [`yibin-output.md`](examples/yibin-output.md) | 287 行 | 5 种风格全覆盖 + 美食 + 酒文化 |
+| 🌸 大盘省份 | 四川 8 大景点 | [`sichuan-output.md`](examples/sichuan-output.md) | 346 行 | 反差吸引型合集 + 8 期连载 |
+| 🏛️ 历史古都 | **西安** | [`xian-output.md`](examples/xian-output.md) | **482 行** | 兵马俑 + 大唐不夜城 + 华山 |
+| 🏜️ 沙漠丝路 | **敦煌** | [`dunhuang-output.md`](examples/dunhuang-output.md) | **369 行** | 莫高窟 + 鸣沙山 + 雅丹 |
+| 🌊 文艺疗愈 | **大理** | [`dali-output.md`](examples/dali-output.md) | **398 行** | 洱海环湖 + 苍山 + 三塔 |
+
+
+---
+
+## 🌐 REST API 服务（可选）
+
+如果你想给这个 Skill 加一层 HTTP 接口，方便接 CI / Notion / Slack bot：
+
+```bash
+# 一键启动
+cp .env.example .env && vim .env       # 至少填 1 个 LLM key
+docker compose up -d                    # http://localhost:8000
+
+# 或者本地直接跑
+pip install -r requirements-api.txt
+export ANTHROPIC_API_KEY=sk-ant-xxx     # 或 OPENAI / DEEPSEEK
+python scripts/api/server.py
+```
+
+**API 端点**（完整 Swagger 见 `http://localhost:8000/docs`）：
+- `GET /health` — 健康检查
+- `POST /api/v1/generate` — 核心生成端点，支持 platform / style / secondary_styles
+- `GET /api/v1/destinations` — 速查城市列表
+
+**两种运行模式**：
+- 🟢 配了 LLM key → 自动返回完整 Markdown
+- 🟡 没收 key → 返回拼好的 prompt 字符串，复制到任意 AI 助手
+
+详见 [`scripts/api/README.md`](scripts/api/README.md) · 测试用例 [`examples/api-curl.sh`](examples/api-curl.sh)
 
 ---
 
