@@ -22,7 +22,8 @@
 - 🖼️ **AI 生图 Prompt** — 每个景点 2-3 套英文 prompt，可直接喂 Midjourney / DALL-E / 即梦 / 豆包 / Stable Diffusion
 - 🎯 **11 大模型专项优化** — 为 GPT Image 2 / Gemini 3 Pro & Flash / Seedream 5.0 / FLUX 2 Max / Hunyuan 3.0 / Qwen-Image 2.0 / 通义万相 / GLM-Image / MiniMax-Image-01 / 文心一格 2.0 各写了针对性 prompt 公式 + 参数体系 + 对比示例。详见 [`references/image-models-optimization.md`](references/image-models-optimization.md)
 - 📚 **可缓存参考** — 8 大景点档案已收录，重复调用秒回
-- 🌐 **REST API** — 内置 FastAPI 服务，HTTP 调用、批量、CI 集成都开箱即用
+- 🌐 **REST API** — 内置 FastAPI 服务，文案 + **生图双端点**，HTTP / CI 集成开箱即用
+- 🎨 **4 大生图 Provider** — Google AI / OpenAI / OpenRouter / HuggingFace 统一接口，1 key 切任意模型（含 nano-banana）
 - 🐳 **Docker 部署** — docker compose up 一键起，没有 Python 环境也能跑
 
 ---
@@ -122,9 +123,24 @@ python scripts/api/server.py
 ```
 
 **API 端点**（完整 Swagger 见 `http://localhost:8000/docs`）：
+
 - `GET /health` — 健康检查
-- `POST /api/v1/generate` — 核心生成端点，支持 platform / style / secondary_styles
+- `POST /api/v1/generate` — 核心文案生成端点，支持 platform / style / secondary_styles
+- **`POST /api/v1/generate-image`** — 🎨 **生图端点**（4 provider 自动 fallback：Google AI / OpenAI / OpenRouter / 手调 prompt）
 - `GET /api/v1/destinations` — 速查城市列表
+
+**`POST /api/v1/generate-image` 示例**：
+```bash
+curl -X POST http://localhost:8000/api/v1/generate-image \
+  -H "Content-Type: application/json" \
+  -d '{
+    "prompt": "Mount Hua at sunrise, sea of clouds, 8K cinematic",
+    "aspect_ratio": "16:9",
+    "provider": "openrouter",
+    "model": "nano-banana"
+  }'
+```
+返回 `status`, `png_base64` (图片), `size_bytes`, `cost_estimate_usd`。
 
 **两种运行模式**：
 - 🟢 配了 LLM key → 自动返回完整 Markdown

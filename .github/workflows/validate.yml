@@ -57,6 +57,47 @@ jobs:
         run: |
           curl -fsS http://localhost:8000/api/v1/destinations | python -c "import sys, json; print('destinations count:', len(json.load(sys.stdin)['destinations']))"
 
+  smoke-test-image-adapter:
+    name: Image Adapter Smoke Test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: pip install --break-system-packages httpx fastapi pydantic
+      - name: Run image_adapter imports
+        run: |
+          python -c "
+          import sys
+          sys.path.insert(0, 'scripts/api')
+          from image_adapter import (
+              ImageAdapter, ImageRequest, ImageNotConfiguredError,
+              Provider, detect_provider, resolve_model,
+          )
+          # No keys → must raise
+          import os
+          for k in ['GOOGLE_API_KEY','OPENAI_API_KEY','OPENROUTER_API_KEY','TSC_IMAGE_PROVIDER']:
+              os.environ.pop(k, None)
+          try:
+              detect_provider()
+              raise AssertionError('should have raised')
+          except ImageNotConfiguredError:
+              pass
+          # Each key
+          for k,exp in [('GOOGLE_API_KEY','google'),('OPENAI_API_KEY','openai'),('OPENROUTER_API_KEY','openrouter')]:
+              for x in ['GOOGLE_API_KEY','OPENAI_API_KEY','OPENROUTER_API_KEY']:
+                  os.environ.pop(x, None)
+              os.environ[k]='k'
+              assert detect_provider().value == exp, f'{k} mismatch'
+          # model resolution
+          assert resolve_model(Provider.google, 'nano-banana') == 'gemini-3-pro-image-preview'
+          assert resolve_model(Provider.openai, None) == 'gpt-image-2'
+          assert resolve_model(Provider.openrouter, 'flux-2-max') == 'black-forest-labs/flux-2-max'
+          assert resolve_model(Provider.openai, 'my-custom') == 'my-custom'
+          print('image_adapter: ALL OK')
+          "
+
   self-check-output-template:
     name: 7-Item Output Self-Check
     runs-on: ubuntu-latest
