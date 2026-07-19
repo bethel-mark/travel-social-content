@@ -1,0 +1,17 @@
+services:
+  travel-api:
+    build: .
+    container_name: travel-social-api
+    ports:
+      - "8000:8000"
+    environment:
+      # Pick ONE provider by setting the matching key, others left blank.
+      - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY:-}
+      - OPENAI_API_KEY=${OPENAI_API_KEY:-}
+      - DEEPSEEK_API_KEY=${DEEPSEEK_API_KEY:-}
+      - API_HOST=0.0.0.0
+      - API_PORT=8000
+    volumes:
+      - ./cache:/app/cache
+      - ./examples:/app/examples
+    restart: unless-stopped

@@ -1,0 +1,53 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "travel-social-content"
+version = "1.0.0"
+description = "SKILL: 给一个景点名 → 输出可直接发布的小红书/IG/朋友圈/微博社媒方案"
+readme = "README.md"
+authors = [{name = "travel-social-content contributors"}]
+license = {text = "MIT"}
+requires-python = ">=3.10"
+keywords = ["travel", "social-media", "skill", "claude-code", "codex"]
+classifiers = [
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Multimedia :: Graphics",
+    "Topic :: Internet :: WWW/HTTP",
+]
+
+[project.optional-dependencies]
+api = [
+    "fastapi>=0.110.0",
+    "uvicorn[standard]>=0.27.0",
+    "pydantic>=2.5.0",
+    "anthropic>=0.18.0",
+    "openai>=1.12.0",
+    "httpx>=0.26.0",
+]
+dev = [
+    "pytest>=7.4.0",
+    "ruff>=0.4.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/YOUR_USERNAME/travel-social-content"
+Issues = "https://github.com/YOUR_USERNAME/travel-social-content/issues"
+
+[tool.setuptools.packages.find]
+include = ["scripts.api*"]
+exclude = ["tests*", "examples*"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
