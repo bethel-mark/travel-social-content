@@ -20,6 +20,7 @@
 - 🗺️ **5 种文案风格** — 系列打卡 / 情绪共鸣 / 反差吸引 / 数字攻略 / 沉浸脚本
 - 📱 **4 大平台适配** — 小红书 / Instagram / 朋友圈 / 微博
 - 🖼️ **AI 生图 Prompt** — 每个景点 2-3 套英文 prompt，可直接喂 Midjourney / DALL-E / 即梦 / 豆包 / Stable Diffusion
+- 🎯 **11 大模型专项优化** — 为 GPT Image 2 / Gemini 3 Pro & Flash / Seedream 5.0 / FLUX 2 Max / Hunyuan 3.0 / Qwen-Image 2.0 / 通义万相 / GLM-Image / MiniMax-Image-01 / 文心一格 2.0 各写了针对性 prompt 公式 + 参数体系 + 对比示例。详见 [`references/image-models-optimization.md`](references/image-models-optimization.md)
 - 📚 **可缓存参考** — 8 大景点档案已收录，重复调用秒回
 - 🌐 **REST API** — 内置 FastAPI 服务，HTTP 调用、批量、CI 集成都开箱即用
 - 🐳 **Docker 部署** — docker compose up 一键起，没有 Python 环境也能跑

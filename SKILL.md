@@ -79,7 +79,9 @@ Skill 接受以下输入（缺失部分会用合理默认值）：
 - **备用 Prompt ×1-2**：人物/夜景/季节限定等差异化变体
 - 全部 prompt 必须可**直接粘贴**到 Midjourney / DALL-E / 即梦 / 豆包 / Stable Diffusion，附参数建议 `--ar / --s / --v`
 
-详见 [`references/image-prompts-cheatsheet.md`](references/image-prompts-cheatsheet.md)。
+详见两份 references：
+- 通用/MJ/DALL-E/即梦/SDXL 见 [`references/image-prompts-cheatsheet.md`](references/image-prompts-cheatsheet.md)
+- 11 大模型（GPT Image 2 / Gemini 3 Pro / Gemini 3.1 Flash / Seedream 5.0 / FLUX 2 Max / Hunyuan 3.0 / Qwen-Image 2.0 / 通义万相 / GLM-Image / MiniMax-Image-01 / 文心一格 2.0）见 [`references/image-models-optimization.md`](references/image-models-optimization.md)
 
 ### Step 6 · 平台适配
 依据 [`references/platforms.md`](references/platforms.md) 中各平台字数 / 标签 / 排版 / 时间规范，输出对应平台版本：

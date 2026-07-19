@@ -1,4 +1,9 @@
-# AI 生图 Prompt 速查手册
+# 🎨 AI 生图 Prompt 速查手册 · 通用 + Midjourney v6.2 / DALL-E / 即梦 / SDXL
+
+> 📌 **本文件覆盖**：通用 prompt 公式、Midjourney v6.2 / DALL-E 3 / 即梦 / 豆包 / Stable Diffusion XL 5 个模型 + 10 个景点模板。
+>
+> 📚 **新文件**：要看 **GPT Image 2 / Gemini 3 Pro / Seedream 5.0 / FLUX 2 Max / Hunyuan 3.0 / Qwen-Image 2.0 / 通义万相 / GLM-Image / MiniMax-Image-01 / 文心一格 2.0** 等 11 大模型的专项优化 → [`image-models-optimization.md`](image-models-optimization.md)。
+
 
 > Skill 输出 Step 5「生成 AI 生图 Prompt 套件」的执行手册。
 
