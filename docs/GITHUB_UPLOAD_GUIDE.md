@@ -70,8 +70,8 @@ echo "  - 代码行数: $(find . -type f \( -name '*.md' -o -name '*.sh' -o -nam
 ```bash
 cd /Users/a1234/Documents/06-YouTube/travel-social-content
 
-# 添加 GitHub 远端（替换 YOUR_USERNAME）
-git remote add origin git@github.com:YOUR_USERNAME/travel-social-content.git
+# 添加 GitHub 远端（替换 bethel-mark）
+git remote add origin git@github.com:bethel-mark/travel-social-content.git
 
 # 主分支改名（GitHub 默认 main）
 git branch -M main
@@ -84,7 +84,7 @@ git push --tags
 ```
 
 > 💡 **GitHub 推荐 SSH 推送**。https 推送需用 Personal Access Token (PAT)：
-> `git remote add origin https://YOUR_TOKEN@github.com/YOUR_USERNAME/travel-social-content.git`
+> `git remote add origin https://YOUR_TOKEN@github.com/bethel-mark/travel-social-content.git`
 
 ---
 
@@ -97,7 +97,7 @@ git push --tags
 4. Save
 
 # 等待 1-2 分钟，访问:
-# https://YOUR_USERNAME.github.io/travel-social-content/
+# https://bethel-mark.github.io/travel-social-content/
 ```
 
 GitHub Pages 会自动用 Jekyll 渲染 `README.md`。**注意**：
@@ -159,7 +159,7 @@ git push origin v1.0.0
 #    - https://github.com/helloianneo/awesome-claude-code-skills
 # 
 # 2. 编辑他们的 README.md，在旅游/社媒分类下加一行：
-#    - [travel-social-content](https://github.com/YOUR_USER/travel-social-content)
+#    - [travel-social-content](https://github.com/bethel-mark/travel-social-content)
 #      - Generate complete social media content plans for travel destinations
 #
 # 3. 提交 PR，标题：Add travel-social-content skill
@@ -227,7 +227,7 @@ Settings → Social preview → Upload an image (1280×640 PNG)
 ✅ Docker compose 一键起 FastAPI 服务
 ✅ 零外部 API 依赖
 
-GitHub: https://github.com/YOUR_USER/travel-social-content
+GitHub: https://github.com/bethel-mark/travel-social-content
 ```
 
 ### 知乎推广方向
