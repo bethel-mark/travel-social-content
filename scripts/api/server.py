@@ -13,6 +13,11 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 from generator import assemble_full_prompt_only  # noqa: E402
 from llm_adapter import detect_llm, generate  # noqa: E402
+from image_adapter import (  # noqa: E402
+    ImageAdapter, ImageRequest, ImageNotConfiguredError,
+    Provider as ImageProvider,
+)
+
 from schemas import (  # noqa: E402
     GenerateRequest,
     GenerateResponse,
@@ -117,6 +122,52 @@ def list_destinations() -> dict:
         if line.startswith("### "):
             names.append(line[4:].strip())
     return {"destinations": names[:60]}
+
+
+class ImageGenerateRequest(BaseModel):
+    prompt: str = Field(..., min_length=1, max_length=4000)
+    aspect_ratio: str = Field(default="1:1")
+    quality: str = Field(default="high")
+    n: int = Field(default=1, ge=1, le=4)
+    model: Optional[str] = None
+    provider: Optional[str] = None
+
+
+class ImageGenerateResponse(BaseModel):
+    status: str
+    provider: Optional[str] = None
+    model: Optional[str] = None
+    png_base64: Optional[str] = None
+    size_bytes: int = 0
+    cost_estimate_usd: float = 0.0
+    error: Optional[str] = None
+
+
+@app.post("/api/v1/generate-image", response_model=ImageGenerateResponse)
+def generate_image(req: ImageGenerateRequest):
+    """Generate image. Auto-detects provider from env: GOOGLE / OPENAI / OPENROUTER."""
+    forced = req.provider
+    try:
+        if forced and forced != "auto":
+            adapter = ImageAdapter(provider=ImageProvider(forced))
+        else:
+            adapter = ImageAdapter()
+    except (ValueError, ImageNotConfiguredError) as exc:
+        return ImageGenerateResponse(status="not_configured", error=str(exc))
+    try:
+        result = adapter.generate(ImageRequest(
+            prompt=req.prompt, aspect_ratio=req.aspect_ratio,
+            quality=req.quality, n=req.n, model=req.model,
+        ))
+    except Exception as exc:
+        return ImageGenerateResponse(status="error", error=f"{type(exc).__name__}: {exc}")
+    import base64
+    return ImageGenerateResponse(
+        status="ok", provider=result.provider.value, model=result.model,
+        png_base64=base64.b64encode(result.png_bytes).decode("ascii"),
+        size_bytes=len(result.png_bytes),
+        cost_estimate_usd=result.cost_estimate_usd,
+    )
 
 
 if __name__ == "__main__":
